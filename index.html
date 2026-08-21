@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reportes del Barrio</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+
+  <header>
+    <h1>Plataforma de Reportes Ciudadanos</h1>
+    <p><strong>comunitario para el reporte de problemas en su ciudad </strong></p>
+    <nav>
+      <a href="#como-funciona">¿Cómo funciona?</a> |
+      <a href="#inicio">Categorías</a> |
+      <a href="#mapa-seccion">Mapa</a> |
+      <a href="#crear-reporte">Registrar Reporte</a>
+      <button id="btn-login" type="button">Iniciar Sesión</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="como-funciona">
+      <h2>Cómo funciona la plataforma</h2>
+      <p>Espacio para consultar y alertar a la comunidad sobre irregularidades en la ciudad.</p>
+      <h6>Recuerde que para hacer efectivo un reporte/pin tiene que estar registrado. Puede hacerlo con el botón "Iniciar Sesión" </h6>
+    </section>
+
+    <section id="inicio">
+      <h2>Categorías de Reportes Urbanos</h2>
+      <ul>
+        <li><strong>Tráfico y Movilidad:</strong> Semáforos dañados, choques y trancones.</li>
+        <li><strong>Fallas de Infraestructura:</strong> Postes sin luz, huecos y fugas de agua.</li>
+        <li><strong>Obras y Mantenimiento:</strong> Pavimentación y cierres programados.</li>
+        <li><strong>Aún no sé que poner:</strong> Próximamente</li>
+        <li><strong>Aún no sé que poner:</strong> Próximamente</li>
+        <li><strong>Aún no sé que poner:</strong> Próximamente</li>
+      </ul>
+    </section>
+
+    <section id="mapa-seccion">
+      <h2>Mapa de Alertas en Tiempo Real</h2>
+      <figure>
+        <img src="imagen/Bogotá.jpg" alt="Mapa de Bogotá de referencia" width="50%">
+        <figcaption>Vista previa estática del mapa.</figcaption>
+      </figure>
+    </section>
+
+    <section id="crear-reporte">
+  <h2>Registrar un Nuevo Problema</h2>
+  <!-- Le agregamos el id="formulario-reporte" -->
+  <form id="formulario-reporte">
+    <p>
+      <label for="tipo">Tipo de problema:</label><br>
+      <select id="tipo" name="tipo">
+        <option value="trafico">Tráfico / Bloqueo</option>
+        <option value="infraestructura">Falla de Poste / Baches</option>
+        <option value="obras">Obra / Cierre Vial</option>
+      </select>
+    </p>
+
+    <p>
+      <label for="descripcion">Descripción de la situación:</label><br>
+      <textarea id="descripcion" name="descripcion" rows="3" cols="40" placeholder="Ej. Hueco en la vía..."></textarea>
+    </p>
+
+    <button type="submit">Publicar Alerta</button>
+  </form>
+</section>
+
+    <section id="resumen-modulo">
+      <h2>Resumen del Sistema</h2>
+      <p id="resultado">Cargando información del sistema</p>
+    </section>
+    
+    <section id="Login">
+      <h2> Iniciar sesión </h2> 
+
+
+    </section>
+
+    <section id ="Pines"> 
+
+
+    </section>
+  </main>
+
+  <footer>
+    <p>Creado para la materia Programación III - Proyecto de Reportes Ciudadanos</p>
+  </footer>
+
+</body>
+</html>

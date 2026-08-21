@@ -1,0 +1,31 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  line-height: 1.6;
+  background-color: #f4f4f9;
+  color: #333;
+}
+
+header, footer {
+  background-color: #c217e4;
+  color: white;
+  padding: 15px;
+  text-align: center;
+}
+
+header nav a {
+  color: #ffffff;
+  text-decoration: none;
+  margin: 0 5px;
+}
+
+section {
+  background: white;
+  margin: 15px 0;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+#resumen-modulo {
+  background-color: #eef2f5;
+}
