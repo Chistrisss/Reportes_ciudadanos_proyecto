@@ -2,6 +2,23 @@
 console.log('JavaScript conectado correctamente');
 
 
+let usuarioAutenticado = false;
+
+const btnLogin = document.getElementById('btn-login');
+
+btnLogin.addEventListener('click', function() {
+
+  let clave = prompt('Ingrese la clave de acceso:');
+
+  if (clave === '1234') {
+    usuarioAutenticado = true;
+    alert('Sesión iniciada correctamente');
+    btnLogin.textContent = 'Sesión Iniciada '; 
+  } else {
+    alert('Clave incorrecta.');
+  }
+});
+
 const sector = 'Localidad Kennedy';
 let reportesCriticos = 2;
 let reportesMenores = 1;
