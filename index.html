@@ -4,12 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reportes Ciudadanos - Mi Barrio</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <link rel="stylesheet" href="styles.css">
   <script src="app.js" defer></script>
 </head>
 <body>
 
-  <!-- Ventana Modal flotante para el Login -->
   <div id="modal-login" class="oculto">
     <div class="modal-contenido">
       <h2>Iniciar Sesión</h2>
@@ -37,88 +38,115 @@
   <main>
     <section id="como-funciona">
       <h2>Cómo funciona la plataforma</h2>
-      <p>Consulta y registra alertas comunitarias sobre tu sector en tiempo real.</p>
+      <ol>
+        <li>Inicia sesión con tu clave de acceso.</li>
+        <li>Haz clic en el mapa de Bogotá para fijar la ubicación exacta.</li>
+        <li>Completa los datos de la localidad, tipo y descripción.</li>
+        <li>Publica la alerta para que aparezca en el sistema.</li>
+      </ol>
     </section>
 
     <section id="inicio">
-      <h2>Categorías de Reportes Urbanos</h2>
-      <ul>
-        <li><strong>Tráfico y Movilidad:</strong> Semáforos dañados, choques y trancones.</li>
-        <li><strong>Fallas de Infraestructura:</strong> Postes sin luz, huecos y fugas de agua.</li>
-        <li><strong>Obras y Mantenimiento:</strong> Pavimentación y cierres programados.</li>
-      </ul>
+      <h2>Glosario de Reportes Urbanos</h2>
+      <dl>
+        <dt>🟡 Infraestructura y Servicios (Amarillo)</dt>
+        <dd>Fallas de alumbrado, cortes de agua, problemas de alcantarillado.</dd>
+        <dt>🔴 Vías y Movilidad (Rojo)</dt>
+        <dd>Huecos, semáforos dañados, bloqueos o accidentes.</dd>
+        <dt>🟢 Medio Ambiente y Espacio Público (Verde)</dt>
+        <dd>Basuras, árboles en riesgo, parques en mal estado.</dd>
+        <dt>🔵 Convivencia y Seguridad (Azul)</dt>
+        <dd>Inseguridad peatonal, andenes destruidos, ruidos excesivos.</dd>
+      </dl>
     </section>
 
-    <!-- Mapa estático conservado -->
-    <section id="mapa-seccion">
-      <h2>Mapa de Alertas en Tiempo Real</h2>
-      <figure>
-        <img src="imagen/Bogotá.png" alt="Mapa de Bogotá de referencia" width="50%">
-        <figcaption>Vista previa estática del mapa.</figcaption>
-      </figure>
-    </section>
+    <div class="layout-interactivo">
+      <section id="mapa-seccion">
+        <h2>Mapa de Alertas en Tiempo Real</h2>
+        <p id="texto-coordenadas" style="color: red;">Haz clic en el mapa para fijar el punto.</p>
+        <div id="mapa-interactivo"></div>
+      </section>
 
-    <section id="crear-reporte">
-      <h2>Registrar un Nuevo Problema</h2>
-      <form id="formulario-reporte">
-        <p>
-          <label for="sector">Localidad / Sector:</label><br>
-          <input type="text" id="sector" list="opciones-localidades" placeholder="Escribe para buscar tu localidad..." required>
-          <datalist id="opciones-localidades">
-            <option value="Usaquén"></option>
-            <option value="Chapinero"></option>
-            <option value="Santa Fe"></option>
-            <option value="San Cristóbal"></option>
-            <option value="Usme"></option>
-            <option value="Tunjuelito"></option>
-            <option value="Bosa"></option>
-            <option value="Kennedy"></option>
-            <option value="Fontibón"></option>
-            <option value="Engativá"></option>
-            <option value="Suba"></option>
-            <option value="Barrios Unidos"></option>
-            <option value="Teusaquillo"></option>
-            <option value="Los Mártires"></option>
-            <option value="Antonio Nariño"></option>
-            <option value="Puente Aranda"></option>
-            <option value="La Candelaria"></option>
-            <option value="Rafael Uribe Uribe"></option>
-            <option value="Ciudad Bolívar"></option>
-            <option value="Sumapaz"></option>
-          </datalist>
-        </p>
+      <section id="crear-reporte">
+        <h2>Registrar un Nuevo Problema</h2>
+        <form id="formulario-reporte">
+          <p>
+            <label for="sector">Localidad / Sector:</label><br>
+            <input type="text" id="sector" list="opciones-localidades" placeholder="Escribe para buscar tu localidad..." required>
+            <datalist id="opciones-localidades">
+              <option value="Usaquén"></option>
+              <option value="Chapinero"></option>
+              <option value="Santa Fe"></option>
+              <option value="San Cristóbal"></option>
+              <option value="Usme"></option>
+              <option value="Tunjuelito"></option>
+              <option value="Bosa"></option>
+              <option value="Kennedy"></option>
+              <option value="Fontibón"></option>
+              <option value="Engativá"></option>
+              <option value="Suba"></option>
+              <option value="Barrios Unidos"></option>
+              <option value="Teusaquillo"></option>
+              <option value="Los Mártires"></option>
+              <option value="Antonio Nariño"></option>
+              <option value="Puente Aranda"></option>
+              <option value="La Candelaria"></option>
+              <option value="Rafael Uribe Uribe"></option>
+              <option value="Ciudad Bolívar"></option>
+              <option value="Sumapaz"></option>
+            </datalist>
+          </p>
 
-        <p>
-          <label for="tipo">Tipo de problema específico:</label><br>
-           <select id="tipo" name="tipo">
-            <optgroup label="Infraestructura y Servicios">
-            <option value="Poste sin luz / Cableado">Poste sin luz / Cableado expuesto</option>
-            <option value="Fuga de agua / Tubo roto">Fuga de agua / Tubo roto</option>
-           <option value="Corte de agua no programado">Corte de agua no programado</option>
-           <option value="Alcantarilla tapada / Sin tapa">Alcantarilla tapada / Sin tapa</option>
-            </optgroup>
-  
-            <optgroup label="Vías y Movilidad">
-            <option value="Hueco o bache peligroso">Hueco o bache peligroso</option>
-            <option value="Semáforo dañado">Semáforo dañado / desprogramado</option>
-            <option value="Accidente / Vehículo varado">Accidente / Vehículo varado</option>
-            </optgroup>
+          <p>
+            <label for="tipo">Tipo de problema específico:</label><br>
+            <select id="tipo" name="tipo" required>
+              <optgroup label="🟡 Infraestructura y Servicios (Amarillo)">
+                <option value="Postes de luz apagados o sin bombillo">Postes de luz apagados o sin bombillo</option>
+                <option value="Cableado eléctrico expuesto">Cableado eléctrico expuesto</option>
+                <option value="Postes ladeados por accidentes">Postes ladeados por accidentes</option>
+                <option value="Corte no programado de agua">Corte no programado de agua</option>
+                <option value="Fuga de agua potable">Fuga de agua potable</option>
+                <option value="Agua sucia o con turbiedad">Agua sucia o con turbiedad</option>
+                <option value="Alcantarillas tapadas con basura">Alcantarillas tapadas con basura</option>
+                <option value="Alcantarillas sin tapa">Alcantarillas sin tapa</option>
+                <option value="Inundaciones en vías principales">Inundaciones en vías principales</option>
+              </optgroup>
+              <optgroup label="🔴 Vías y Movilidad (Rojo)">
+                <option value="Hueco o bache peligroso">Hueco o bache peligroso</option>
+                <option value="Asfalto levantado">Asfalto levantado</option>
+                <option value="Placas de calzada destruidas">Placas de calzada destruidas</option>
+                <option value="Semáforo apagado o desprogramado">Semáforo apagado o desprogramado</option>
+                <option value="Señales de tránsito destruidas">Señales de tránsito destruidas</option>
+                <option value="Señalización horizontal borrada">Señalización horizontal borrada</option>
+                <option value="Trancón por vehículo varado">Trancón por vehículo varado</option>
+                <option value="Accidente de tránsito sin levantar">Accidente de tránsito sin levantar</option>
+                <option value="Mal parqueo bloqueando vía">Mal parqueo bloqueando vía</option>
+              </optgroup>
+              <optgroup label="🟢 Medio Ambiente y Espacio Público (Verde)">
+                <option value="Acumulación de basuras">Acumulación de basuras</option>
+                <option value="Arrojo de muebles/escombros">Arrojo de muebles/escombros</option>
+                <option value="Canecas públicas rebosadas">Canecas públicas rebosadas</option>
+                <option value="Árbol en riesgo de caída">Árbol en riesgo de caída</option>
+                <option value="Parques infantiles dañados">Parques infantiles dañados</option>
+                <option value="Zonas verdes invadidas">Zonas verdes invadidas</option>
+              </optgroup>
+              <optgroup label="🔵 Convivencia y Seguridad (Azul)">
+                <option value="Iluminación deficiente en peatonal">Iluminación deficiente en peatonal</option>
+                <option value="Andenes destruidos">Andenes destruidos</option>
+                <option value="Exceso de ruido comercial/obras">Exceso de ruido comercial/obras</option>
+              </optgroup>
+            </select>
+          </p>
 
-            <optgroup label="Medio Ambiente">
-            <option value="Acumulación de basuras">Acumulación de basuras / escombros</option>
-           <option value="Árbol en riesgo de caída">Árbol en riesgo de caída</option>
-           </optgroup>
-           </select>
-        </p>
+          <p>
+            <label for="descripcion">Descripción adicional:</label><br>
+            <textarea id="descripcion" name="descripcion" rows="3" placeholder="Añade detalles sobre el problema..." required></textarea>
+          </p>
 
-        <p>
-          <label for="descripcion">Descripción de la situación:</label><br>
-          <textarea id="descripcion" name="descripcion" rows="3" cols="40" placeholder="Ej. Hueco peligroso en la vía principal..." required></textarea>
-        </p>
-
-        <button type="submit">Publicar Alerta</button>
-      </form>
-    </section>
+          <button type="submit">Publicar Alerta</button>
+        </form>
+      </section>
+    </div>
 
     <section id="resumen-modulo">
       <h2>Resumen del Sistema</h2>

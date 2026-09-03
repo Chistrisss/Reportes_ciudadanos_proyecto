@@ -7,7 +7,7 @@ body {
 }
 
 header, footer {
-  background-color: #c217e4;
+  background-color: #9e0c92;
   color: white;
   padding: 15px;
   text-align: center;
@@ -26,26 +26,103 @@ section {
   border-radius: 5px;
 }
 
+ol li {
+  margin-bottom: 8px;
+}
+
+dt {
+  font-weight: bold;
+  color: #003366;
+  margin-top: 10px;
+}
+
+dd {
+  margin-left: 0;
+  padding-left: 15px;
+  border-left: 3px solid #9e0c92;
+  margin-bottom: 10px;
+}
+
+.layout-interactivo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.layout-interactivo > section {
+  flex: 1;
+  min-width: 300px;
+  margin: 0;
+}
+
+#mapa-interactivo {
+  height: 450px;
+  width: 100%;
+  border-radius: 5px;
+  z-index: 1;
+}
+
+.pin-amarillo {
+  background-color: #f1c40f;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);
+  width: 20px;
+  height: 20px;
+}
+
+.pin-rojo {
+  background-color: #e74c3c;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);
+  width: 20px;
+  height: 20px;
+}
+
+.pin-verde {
+  background-color: #2ecc71;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);
+  width: 20px;
+  height: 20px;
+}
+
+.pin-azul {
+  background-color: #3498db;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);
+  width: 20px;
+  height: 20px;
+}
+
 #resumen-modulo {
-  border-left: 5px solid #c217e4;
+  border-left: 5px solid #66005e;
   background-color: #eef2f5;
+  margin-top: 20px;
 }
 
 .tarjeta-reporte {
   border: 1px solid #ddd;
-  border-left: 5px solid #c217e4;
   background-color: #fafafa;
   padding: 10px 15px;
   margin-bottom: 10px;
   border-radius: 4px;
 }
 
+.tarjeta-amarilla { border-left: 6px solid #f1c40f; }
+.tarjeta-roja { border-left: 6px solid #e74c3c; }
+.tarjeta-verde { border-left: 6px solid #2ecc71; }
+.tarjeta-azul { border-left: 6px solid #3498db; }
+
 .tarjeta-reporte h3 {
   margin-top: 0;
-  color: #003366;
+  color: #333;
 }
 
-/* Estilos de la Ventana Modal de Login */
 .oculto {
   display: none !important;
 }
