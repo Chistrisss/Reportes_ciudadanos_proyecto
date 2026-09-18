@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reportes Ciudadanos - Mi Barrio</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+
+  <div id="modal-login" class="oculto">
+    <div class="modal-contenido">
+      <h2>Iniciar Sesión</h2>
+      <p>Ingresa la clave para administrar o publicar reportes:</p>
+      <input type="password" id="clave-input" placeholder="Ingresa tu clave (1234)">
+      <div class="modal-botones">
+        <button id="btn-confirmar-login" type="button">Ingresar</button>
+        <button id="btn-cerrar-modal" type="button" class="btn-secundario">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <header>
+    <h1>Plataforma de Reportes Ciudadanos</h1>
+    <p>Sistema comunitario para el reporte de problemas urbanos</p>
+    <nav>
+      <a href="#como-funciona">¿Cómo funciona?</a> |
+      <a href="#inicio">Categorías</a> |
+      <a href="#mapa-seccion">Ubicación</a> |
+      <a href="#crear-reporte">Registrar Reporte</a> |
+      <button id="btn-login" type="button">Iniciar Sesión</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="como-funciona">
+      <h2>Cómo funciona la plataforma</h2>
+      <ol>
+        <li>Inicia sesión con tu clave de acceso.</li>
+        <li>Haz clic en el mapa de Bogotá para fijar la ubicación exacta.</li>
+        <li>Completa los datos de la localidad, tipo y descripción.</li>
+        <li>Publica la alerta para que aparezca en el sistema.</li>
+      </ol>
+    </section>
+
+    <section id="inicio">
+      <h2>Glosario de Reportes Urbanos</h2>
+      <dl>
+        <dt>🟡 Infraestructura y Servicios (Amarillo)</dt>
+        <dd>Fallas de alumbrado, cortes de agua, problemas de alcantarillado.</dd>
+        <dt>🔴 Vías y Movilidad (Rojo)</dt>
+        <dd>Huecos, semáforos dañados, bloqueos o accidentes.</dd>
+        <dt>🟢 Medio Ambiente y Espacio Público (Verde)</dt>
+        <dd>Basuras, árboles en riesgo, parques en mal estado.</dd>
+        <dt>🔵 Convivencia y Seguridad (Azul)</dt>
+        <dd>Inseguridad peatonal, andenes destruidos, ruidos excesivos.</dd>
+      </dl>
+    </section>
+
+    <div class="layout-interactivo">
+      <section id="mapa-seccion">
+        <h2>Mapa de Alertas en Tiempo Real</h2>
+        <p id="texto-coordenadas" style="color: red;">Haz clic en el mapa para fijar el punto.</p>
+        <div id="mapa-interactivo"></div>
+      </section>
+
+      <section id="crear-reporte">
+        <h2>Registrar un Nuevo Problema</h2>
+        <form id="formulario-reporte">
+          <p>
+            <label for="sector">Localidad / Sector:</label><br>
+            <input type="text" id="sector" list="opciones-localidades" placeholder="Escribe para buscar tu localidad..." required>
+            <datalist id="opciones-localidades">
+              <option value="Usaquén"></option>
+              <option value="Chapinero"></option>
+              <option value="Santa Fe"></option>
+              <option value="San Cristóbal"></option>
+              <option value="Usme"></option>
+              <option value="Tunjuelito"></option>
+              <option value="Bosa"></option>
+              <option value="Kennedy"></option>
+              <option value="Fontibón"></option>
+              <option value="Engativá"></option>
+              <option value="Suba"></option>
+              <option value="Barrios Unidos"></option>
+              <option value="Teusaquillo"></option>
+              <option value="Los Mártires"></option>
+              <option value="Antonio Nariño"></option>
+              <option value="Puente Aranda"></option>
+              <option value="La Candelaria"></option>
+              <option value="Rafael Uribe Uribe"></option>
+              <option value="Ciudad Bolívar"></option>
+              <option value="Sumapaz"></option>
+            </datalist>
+          </p>
+
+          <p>
+            <label for="tipo">Tipo de problema específico:</label><br>
+            <select id="tipo" name="tipo" required>
+              <optgroup label="🟡 Infraestructura y Servicios (Amarillo)">
+                <option value="Postes de luz apagados o sin bombillo">Postes de luz apagados o sin bombillo</option>
+                <option value="Cableado eléctrico expuesto">Cableado eléctrico expuesto</option>
+                <option value="Postes ladeados por accidentes">Postes ladeados por accidentes</option>
+                <option value="Corte no programado de agua">Corte no programado de agua</option>
+                <option value="Fuga de agua potable">Fuga de agua potable</option>
+                <option value="Agua sucia o con turbiedad">Agua sucia o con turbiedad</option>
+                <option value="Alcantarillas tapadas con basura">Alcantarillas tapadas con basura</option>
+                <option value="Alcantarillas sin tapa">Alcantarillas sin tapa</option>
+                <option value="Inundaciones en vías principales">Inundaciones en vías principales</option>
+              </optgroup>
+              <optgroup label="🔴 Vías y Movilidad (Rojo)">
+                <option value="Hueco o bache peligroso">Hueco o bache peligroso</option>
+                <option value="Asfalto levantado">Asfalto levantado</option>
+                <option value="Placas de calzada destruidas">Placas de calzada destruidas</option>
+                <option value="Semáforo apagado o desprogramado">Semáforo apagado o desprogramado</option>
+                <option value="Señales de tránsito destruidas">Señales de tránsito destruidas</option>
+                <option value="Señalización horizontal borrada">Señalización horizontal borrada</option>
+                <option value="Trancón por vehículo varado">Trancón por vehículo varado</option>
+                <option value="Accidente de tránsito sin levantar">Accidente de tránsito sin levantar</option>
+                <option value="Mal parqueo bloqueando vía">Mal parqueo bloqueando vía</option>
+              </optgroup>
+              <optgroup label="🟢 Medio Ambiente y Espacio Público (Verde)">
+                <option value="Acumulación de basuras">Acumulación de basuras</option>
+                <option value="Arrojo de muebles/escombros">Arrojo de muebles/escombros</option>
+                <option value="Canecas públicas rebosadas">Canecas públicas rebosadas</option>
+                <option value="Árbol en riesgo de caída">Árbol en riesgo de caída</option>
+                <option value="Parques infantiles dañados">Parques infantiles dañados</option>
+                <option value="Zonas verdes invadidas">Zonas verdes invadidas</option>
+              </optgroup>
+              <optgroup label="🔵 Convivencia y Seguridad (Azul)">
+                <option value="Iluminación deficiente en peatonal">Iluminación deficiente en peatonal</option>
+                <option value="Andenes destruidos">Andenes destruidos</option>
+                <option value="Exceso de ruido comercial/obras">Exceso de ruido comercial/obras</option>
+              </optgroup>
+            </select>
+          </p>
+
+          <p>
+            <label for="descripcion">Descripción adicional:</label><br>
+            <textarea id="descripcion" name="descripcion" rows="3" placeholder="Añade detalles sobre el problema..." required></textarea>
+          </p>
+
+          <button type="submit">Publicar Alerta</button>
+        </form>
+      </section>
+    </div>
+
+    <section id="resumen-modulo">
+      <h2>Resumen del Sistema</h2>
+      <p id="resultado">Total de reportes registrados: 0</p>
+    </section>
+
+    <section id="contenedor-reportes">
+      <h2>Historial de Reportes Registrados</h2>
+      <div id="lista-reportes">
+        <p>No hay reportes registrados aún.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Creado para la materia Programación III - Proyecto de Reportes Ciudadanos</p>
+  </footer>
+
+</body>
+</html>
