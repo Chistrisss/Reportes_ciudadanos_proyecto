@@ -47,19 +47,25 @@ class Reporte {
 const listaDeReportes = [];
 let usuarioAutenticado = false;
 
-const localidadesValidas = [
-  "Usaquén", "Chapinero", "Santa Fe", "San Cristóbal", "Usme",
-  "Tunjuelito", "Bosa", "Kennedy", "Fontibón", "Engativá",
-  "Suba", "Barrios Unidos", "Teusaquillo", "Los Mártires",
-  "Antonio Nariño", "Puente Aranda", "La Candelaria",
-  "Rafael Uribe Uribe", "Ciudad Bolívar", "Sumapaz"
-];
 
 const modal = document.getElementById('modal-login');
 const btnLoginNav = document.getElementById('btn-login');
 const btnCerrarModal = document.getElementById('btn-cerrar-modal');
 const btnConfirmarLogin = document.getElementById('btn-confirmar-login');
+const usuarioInput = document.getElementById('usuario-input');
 const claveInput = document.getElementById('clave-input');
+
+const mensajesLogin = {
+  '1': 'Usuario y clave son obligatorios.',
+  '2': 'Usuario o clave incorrectos.',
+  '3': 'No se pudo conectar con la base de datos.'
+};
+
+
+const cookieUsuario = document.cookie.split('; ').find(c => c.startsWith('ultimoUsuario='));
+if (cookieUsuario) {
+  usuarioInput.value = decodeURIComponent(cookieUsuario.split('=')[1]);
+}
 
 btnLoginNav.addEventListener('click', function() {
   modal.classList.remove('oculto');
@@ -70,33 +76,36 @@ btnCerrarModal.addEventListener('click', function() {
   claveInput.value = '';
 });
 
-btnConfirmarLogin.addEventListener('click', function() {
-  if (claveInput.value === '1234') {
+btnConfirmarLogin.addEventListener('click', async function() {
+  const datos = new URLSearchParams();
+  datos.append('usuario', usuarioInput.value);
+  datos.append('clave', claveInput.value);
+
+  try {
+    const respuesta = await fetch('login', { method: 'POST', body: datos });
+
+
+    if (respuesta.url.includes('login.jsp')) {
+      const codigo = new URL(respuesta.url).searchParams.get('error');
+      alert(mensajesLogin[codigo] || 'No se pudo iniciar sesión.');
+      return;
+    }
+
     usuarioAutenticado = true;
     btnLoginNav.textContent = 'Sesión Iniciada ✓';
     modal.classList.add('oculto');
     claveInput.value = '';
     alert('¡Sesión iniciada correctamente!');
-  } else {
-    alert('Clave incorrecta.');
+  } catch (error) {
+    alert('No se pudo conectar con el servidor.');
   }
 });
 
+
 const formulario = document.getElementById('formulario-reporte');
 
-formulario.addEventListener('submit', function(e) {
+formulario.addEventListener('submit', async function(e) {
   e.preventDefault();
-
-  if (!usuarioAutenticado) {
-    alert('Debes iniciar sesión para publicar. Por favor ingresa la clave en la ventana.');
-    modal.classList.remove('oculto');
-    return;
-  }
-
-  if (!coordenadasSeleccionadas) {
-    alert('Haz clic en el mapa de Bogotá para elegir la ubicación antes de enviar.');
-    return;
-  }
 
   const sectorInput = document.getElementById('sector').value.trim();
   const selectElement = document.getElementById('tipo');
@@ -104,20 +113,47 @@ formulario.addEventListener('submit', function(e) {
   const categoriaInput = selectElement.options[selectElement.selectedIndex].parentNode.label;
   const descripcionInput = document.getElementById('descripcion').value;
 
-  if (!localidadesValidas.includes(sectorInput)) {
-    alert('Por favor selecciona una localidad válida de la lista sugerida.');
+  const datos = new URLSearchParams();
+  datos.append('barrio', sectorInput);
+  datos.append('titulo', problemaInput);
+  datos.append('descripcion', descripcionInput);
+  if (coordenadasSeleccionadas) {
+    datos.append('latitud', coordenadasSeleccionadas.lat.toFixed(6));
+    datos.append('longitud', coordenadasSeleccionadas.lng.toFixed(6));
+  }
+
+  try {
+    const respuesta = await fetch('ReporteServlet', {
+      method: 'POST',
+      headers: { 'X-Requested-With': 'fetch' },
+      body: datos
+    });
+
+    if (!respuesta.ok) {
+      const mensaje = await respuesta.text();
+      alert(mensaje);                       // mensaje de validación que escribió el servlet
+      if (respuesta.status === 401) {       // no hay sesión: se pide iniciar sesión
+        usuarioAutenticado = false;
+        btnLoginNav.textContent = 'Iniciar Sesión';
+        modal.classList.remove('oculto');
+      }
+      return;
+    }
+  } catch (error) {
+    alert('No se pudo conectar con el servidor.');
     return;
   }
 
+
   const nuevoReporte = new Reporte(
-    sectorInput, 
-    categoriaInput, 
-    problemaInput, 
-    descripcionInput, 
-    coordenadasSeleccionadas.lat, 
-    coordenadasSeleccionadas.lng
+      sectorInput,
+      categoriaInput,
+      problemaInput,
+      descripcionInput,
+      coordenadasSeleccionadas.lat,
+      coordenadasSeleccionadas.lng
   );
-  
+
   listaDeReportes.push(nuevoReporte);
 
   const iconoPersonalizado = L.divIcon({
@@ -127,7 +163,7 @@ formulario.addEventListener('submit', function(e) {
   });
 
   const marcadorDefinitivo = L.marker([nuevoReporte.lat, nuevoReporte.lng], { icon: iconoPersonalizado }).addTo(mapa);
-  
+
   marcadorDefinitivo.bindPopup(`
     <strong style="color: #333;">${nuevoReporte.problemaEspecifico}</strong><br>
     <em>${nuevoReporte.sector}</em><br>
@@ -137,7 +173,7 @@ formulario.addEventListener('submit', function(e) {
 
   actualizarPantalla();
   formulario.reset();
-  
+
   if (marcadorTemporal) {
     mapa.removeLayer(marcadorTemporal);
   }
@@ -147,8 +183,8 @@ formulario.addEventListener('submit', function(e) {
 });
 
 function actualizarPantalla() {
-  document.getElementById('resultado').textContent = 
-    `Total de reportes registrados: ${listaDeReportes.length}`;
+  document.getElementById('resultado').textContent =
+      `Total de reportes registrados: ${listaDeReportes.length}`;
 
   const contenedor = document.getElementById('lista-reportes');
   contenedor.innerHTML = '';

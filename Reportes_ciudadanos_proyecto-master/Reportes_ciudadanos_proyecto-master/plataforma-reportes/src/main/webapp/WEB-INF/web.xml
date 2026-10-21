@@ -8,14 +8,4 @@
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
 
-    <servlet>
-        <servlet-name>ReporteServlet</servlet-name>
-        <servlet-class>co.edu.reportes.ReporteServlet</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>ReporteServlet</servlet-name>
-
-        <url-pattern>/reporte</url-pattern>
-    </servlet-mapping>
 </web-app>
