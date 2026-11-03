@@ -1,0 +1,9 @@
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence" version="3.0">
+    <persistence-unit name="reportes-unit" transaction-type="JTA">
+        <jta-data-source>jdbc/reportes_ciudadanos</jta-data-source>
+        <non-jta-data-source>jdbc/reportes_ciudadanos</non-jta-data-source>
+        <properties>
+            <property name="eclipselink.target-database" value="MySQL"/>
+        </properties>
+    </persistence-unit>
+</persistence>

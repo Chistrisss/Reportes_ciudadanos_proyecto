@@ -1,0 +1,171 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  line-height: 1.6;
+  background-color: #f4f4f9;
+  color: #333;
+}
+
+header, footer {
+  background-color: #9e0c92;
+  color: white;
+  padding: 15px;
+  text-align: center;
+}
+
+header nav a {
+  color: #ffffff;
+  text-decoration: none;
+  margin: 0 5px;
+}
+
+section {
+  background: white;
+  margin: 15px 0;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+ol li {
+  margin-bottom: 8px;
+}
+
+dt {
+  font-weight: bold;
+  color: #003366;
+  margin-top: 10px;
+}
+
+dd {
+  margin-left: 0;
+  padding-left: 15px;
+  border-left: 3px solid #9e0c92;
+  margin-bottom: 10px;
+}
+
+.layout-interactivo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.layout-interactivo > section {
+  flex: 1;
+  min-width: 300px;
+  margin: 0;
+}
+
+#mapa-interactivo {
+  height: 450px;
+  width: 100%;
+  border-radius: 5px;
+  z-index: 1;
+}
+
+.pin-amarillo {
+  background-color: #f1c40f;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);
+  width: 20px;
+  height: 20px;
+}
+
+.pin-rojo {
+  background-color: #e74c3c;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);
+  width: 20px;
+  height: 20px;
+}
+
+.pin-verde {
+  background-color: #2ecc71;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);
+  width: 20px;
+  height: 20px;
+}
+
+.pin-azul {
+  background-color: #3498db;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);
+  width: 20px;
+  height: 20px;
+}
+
+#resumen-modulo {
+  border-left: 5px solid #66005e;
+  background-color: #eef2f5;
+  margin-top: 20px;
+}
+
+.tarjeta-reporte {
+  border: 1px solid #ddd;
+  background-color: #fafafa;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+.tarjeta-amarilla { border-left: 6px solid #f1c40f; }
+.tarjeta-roja { border-left: 6px solid #e74c3c; }
+.tarjeta-verde { border-left: 6px solid #2ecc71; }
+.tarjeta-azul { border-left: 6px solid #3498db; }
+
+.tarjeta-reporte h3 {
+  margin-top: 0;
+  color: #333;
+}
+
+.oculto {
+  display: none !important;
+}
+
+#modal-login {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-contenido {
+  background: white;
+  padding: 25px;
+  border-radius: 8px;
+  text-align: center;
+  width: 300px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.modal-contenido input {
+  width: 90%;
+  padding: 8px;
+  margin: 10px 0;
+}
+
+.modal-botones {
+  margin-top: 10px;
+}
+
+.modal-botones button {
+  padding: 8px 12px;
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+.btn-secundario {
+  background-color: #ccc;
+  border: 1px solid #aaa;
+}
