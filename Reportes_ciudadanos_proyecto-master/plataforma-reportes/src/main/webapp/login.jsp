@@ -50,7 +50,7 @@
     </form>
 
     <br>
-    <a href="index.html">Volver al inicio</a>
+    <a href="index.jsp">Volver al inicio</a>
 </div>
 </body>
 </html>

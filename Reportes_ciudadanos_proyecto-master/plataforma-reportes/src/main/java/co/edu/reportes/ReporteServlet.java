@@ -123,6 +123,6 @@ public class ReporteServlet extends HttpServlet {
         out.println("<!DOCTYPE html><html><head><meta charset='UTF-8'><title>Error</title></head>");
         out.println("<body style='text-align: center; margin-top: 50px;'><h2>Se encontraron errores:</h2>");
         for (String error : errores) { out.println("<p style='color: red;'>" + error + "</p>"); }
-        out.println("<a href='index.html'>Volver al formulario</a></body></html>");
+        out.println("<a href='index.jsp'>Volver al formulario</a></body></html>");
     }
 }

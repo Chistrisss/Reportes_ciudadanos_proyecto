@@ -49,7 +49,7 @@ public class LoginServlet extends HttpServlet {
             cookie.setMaxAge(60 * 60 * 24 * 7);
             response.addCookie(cookie);
 
-            response.sendRedirect("index.html");
+            response.sendRedirect("index.jsp");
 
         } catch (SQLException e) {
             e.printStackTrace();
