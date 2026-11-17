@@ -3,7 +3,7 @@
 <%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<%-- Forzar la actualización del idioma en la sesión al hacer clic en los botones --%>
+
 <c:if test="${not empty param.idioma}">
     <c:set var="idioma" value="${param.idioma}" scope="session" />
 </c:if>
@@ -37,7 +37,7 @@
 
 <main class="contenedor-principal" style="padding: 20px; max-width: 900px; margin: 0 auto;">
 
-    <%-- Parseo del documento XML generado por el Servlet --%>
+
     <x:parse xml="${xmlData}" var="doc" />
 
     <section style="background: #f4f6f8; padding: 20px; border-radius: 6px; margin-top: 20px;">

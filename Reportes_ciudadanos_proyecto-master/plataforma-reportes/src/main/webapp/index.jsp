@@ -43,9 +43,11 @@
     <a href="#inicio">Categorías</a> |
     <a href="#mapa-seccion">Ubicación</a> |
     <a href="#crear-reporte">Registrar Reporte</a> |
-    <a href="ver-reportes">📋 <fmt:message key="menu.ver_reportes" /></a> |
-
-    <button id="btn-login" type="button" style="margin-left: 10px;">Iniciar Sesión</button>
+    <a href="ver-reportes">Ver Reportes</a> |
+    <a href="consulta.jsp">Buscar Barrio</a> |
+    <a href="estadisticas">Estadísticas</a> |
+    <a href="reportes-jsf.xhtml">Reportes Rápidos</a>
+    <button id="btn-login" type="button" style="margin-left: 12px;">Iniciar Sesión</button>
   </nav>
 </header>
 

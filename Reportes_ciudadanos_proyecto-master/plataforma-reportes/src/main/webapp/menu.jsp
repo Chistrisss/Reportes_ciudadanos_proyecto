@@ -7,10 +7,12 @@
 <fmt:setBundle basename="mensajes" />
 
 <nav style="margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #ccc;">
-    <a href="index.jsp">🏠 <fmt:message key="menu.inicio" /></a> |
-    <a href="ver-reportes">📋 <fmt:message key="menu.ver_reportes" /></a> |
-    <a href="consulta.jsp">🔍 <fmt:message key="menu.buscar_barrio" /></a> |
-    <a href="estadisticas">📊 <fmt:message key="menu.estadisticas" /></a> |
+    <a href="index.jsp">Inicio</a> |
+    <a href="ver-reportes">Ver Reportes</a> |
+    <a href="consulta.jsp">Buscar Barrio</a> |
+    <a href="estadisticas">Estadísticas</a> |
+    <a href="reportes-jsf.xhtml">Registro Rápido</a>
+</nav>
 
     <a href="consulta.jsp?idioma=es_CO" style="margin-left: 15px;">🇪🇸 Español</a> |
     <a href="consulta.jsp?idioma=en_US">🇺🇸 English</a>
