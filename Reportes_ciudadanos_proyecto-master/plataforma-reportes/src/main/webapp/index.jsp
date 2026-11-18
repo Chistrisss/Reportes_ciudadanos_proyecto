@@ -46,7 +46,9 @@
     <a href="ver-reportes">Ver Reportes</a> |
     <a href="consulta.jsp">Buscar Barrio</a> |
     <a href="estadisticas">Estadísticas</a> |
-    <a href="reportes-jsf.xhtml">Reportes Rápidos</a>
+    <a href="reportes-jsf.xhtml">Reportes Rápidos</a> |
+    <a href="ciclo-vida-reporte.xhtml">Alertas por Barrio</a> |
+
     <button id="btn-login" type="button" style="margin-left: 12px;">Iniciar Sesión</button>
   </nav>
 </header>

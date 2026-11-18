@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core">
+<h:head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alertas por Localidad - Plataforma Ciudadana</title>
+    <link rel="stylesheet" href="styles.css" />
+</h:head>
+<h:body>
+
+    <header>
+        <h1>Alertas Informativas por Localidad</h1>
+        <p>Recibe notificaciones cuando se publiquen nuevos reportes en tu sector</p>
+        <nav style="margin-top: 15px;">
+            <a href="index.jsp">Inicio</a> |
+            <a href="ver-reportes">Ver Reportes</a> |
+            <a href="consulta.jsp">Buscar Barrio</a> |
+            <a href="estadisticas">Estadísticas</a> |
+            <a href="reportes-jsf.xhtml">Reportes Rápidos</a> |
+            <a href="ciclo-vida-reporte.xhtml" style="font-weight: bold; text-decoration: underline;">Alertas por Localidad</a>
+        </nav>
+    </header>
+
+    <main style="padding: 20px; max-width: 900px; margin: 0 auto;">
+
+        <section style="background: #f4f6f8; padding: 20px; border-radius: 6px;">
+            <h2 style="margin-top: 0;">Suscribirse al Boletín Informativo</h2>
+
+            <h:form id="formAlertas">
+                <p>
+                    <h:outputLabel for="nombre" value="Nombre del Ciudadano:" /><br />
+                    <h:inputText id="nombre"
+                                 value="#{alertaBarrioBean.nombreCiudadano}"
+                                 required="true"
+                                 requiredMessage="Debe ingresar su nombre."
+                                 validatorMessage="El nombre debe tener entre 3 y 40 caracteres."
+                                 style="width: 100%; padding: 8px;">
+                        <f:validateLength minimum="3" maximum="40" />
+                    </h:inputText>
+                    <h:message for="nombre" style="color: #d9534f; font-weight: bold; display: block; margin-top: 4px;" />
+                </p>
+
+                <p>
+                    <h:outputLabel for="localidad" value="Localidad de Interés:" /><br />
+                    <h:selectOneMenu id="localidad"
+                                     value="#{alertaBarrioBean.localidad}"
+                                     required="true"
+                                     requiredMessage="Debe seleccionar una localidad."
+                                     style="width: 100%; padding: 8px;">
+                        <f:selectItem itemValue="" itemLabel="-- Seleccione la localidad --" />
+                        <f:selectItem itemValue="Usaquén" itemLabel="Usaquén" />
+                        <f:selectItem itemValue="Chapinero" itemLabel="Chapinero" />
+                        <f:selectItem itemValue="Santa Fe" itemLabel="Santa Fe" />
+                        <f:selectItem itemValue="San Cristóbal" itemLabel="San Cristóbal" />
+                        <f:selectItem itemValue="Usme" itemLabel="Usme" />
+                        <f:selectItem itemValue="Tunjuelito" itemLabel="Tunjuelito" />
+                        <f:selectItem itemValue="Bosa" itemLabel="Bosa" />
+                        <f:selectItem itemValue="Kennedy" itemLabel="Kennedy" />
+                        <f:selectItem itemValue="Fontibón" itemLabel="Fontibón" />
+                        <f:selectItem itemValue="Engativá" itemLabel="Engativá" />
+                        <f:selectItem itemValue="Suba" itemLabel="Suba" />
+                        <f:selectItem itemValue="Barrios Unidos" itemLabel="Barrios Unidos" />
+                        <f:selectItem itemValue="Teusaquillo" itemLabel="Teusaquillo" />
+                        <f:selectItem itemValue="Los Mártires" itemLabel="Los Mártires" />
+                        <f:selectItem itemValue="Antonio Nariño" itemLabel="Antonio Nariño" />
+                        <f:selectItem itemValue="Puente Aranda" itemLabel="Puente Aranda" />
+                        <f:selectItem itemValue="La Candelaria" itemLabel="La Candelaria" />
+                        <f:selectItem itemValue="Rafael Uribe Uribe" itemLabel="Rafael Uribe Uribe" />
+                        <f:selectItem itemValue="Ciudad Bolívar" itemLabel="Ciudad Bolívar" />
+                        <f:selectItem itemValue="Sumapaz" itemLabel="Sumapaz" />
+                    </h:selectOneMenu>
+                    <h:message for="localidad" style="color: #d9534f; font-weight: bold; display: block; margin-top: 4px;" />
+                </p>
+
+                <p>
+                    <h:outputLabel for="correo" value="Correo Electrónico:" /><br />
+                    <h:inputText id="correo"
+                                 value="#{alertaBarrioBean.correo}"
+                                 required="true"
+                                 requiredMessage="El correo electrónico es obligatorio."
+                                 validatorMessage="El correo electrónico debe tener entre 8 y 60 caracteres."
+                                 style="width: 100%; padding: 8px;">
+                        <f:validateLength minimum="8" maximum="60" />
+                    </h:inputText>
+                    <h:message for="correo" style="color: #d9534f; font-weight: bold; display: block; margin-top: 4px;" />
+                </p>
+
+                <h:commandButton value="Activar Alertas"
+                                 action="#{alertaBarrioBean.suscribirAlerta}"
+                                 style="padding: 10px 18px; cursor: pointer;" />
+            </h:form>
+
+            <h:panelGroup rendered="#{not empty alertaBarrioBean.confirmacion}">
+                <div style="margin-top: 20px; padding: 15px; background: #dff0d8; border-left: 5px solid #3c763d; color: #3c763d;">
+                    <strong>Suscripción registrada:</strong> #{alertaBarrioBean.confirmacion}
+                </div>
+            </h:panelGroup>
+        </section>
+
+    </main>
+</h:body>
+</html>

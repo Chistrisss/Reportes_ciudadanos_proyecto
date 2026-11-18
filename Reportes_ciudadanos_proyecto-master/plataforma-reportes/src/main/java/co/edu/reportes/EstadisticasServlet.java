@@ -1,49 +1,54 @@
 package co.edu.reportes;
 
-import jakarta.ejb.EJB;
+import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 @WebServlet("/estadisticas")
 public class EstadisticasServlet extends HttpServlet {
 
-    @EJB
+    @Inject
     private ReporteService reporteService;
+
+    private static final List<String> LOCALIDADES_BOGOTA = Arrays.asList(
+            "Usaquén", "Chapinero", "Santa Fe", "San Cristóbal", "Usme",
+            "Tunjuelito", "Bosa", "Kennedy", "Fontibón", "Engativá",
+            "Suba", "Barrios Unidos", "Teusaquillo", "Los Mártires",
+            "Antonio Nariño", "Puente Aranda", "La Candelaria",
+            "Rafael Uribe Uribe", "Ciudad Bolívar", "Sumapaz"
+    );
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-
-        String idioma = request.getParameter("idioma");
-        if (idioma != null && !idioma.isEmpty()) {
-            request.getSession().setAttribute("idioma", idioma);
-        }
-
-
         List<Reporte> lista = reporteService.listar();
-
-
-        long usaquen = lista.stream().filter(r -> "Usaquén".equalsIgnoreCase(r.getBarrio())).count();
-        long chapinero = lista.stream().filter(r -> "Chapinero".equalsIgnoreCase(r.getBarrio())).count();
-        long suba = lista.stream().filter(r -> "Suba".equalsIgnoreCase(r.getBarrio())).count();
-        long kennedy = lista.stream().filter(r -> "Kennedy".equalsIgnoreCase(r.getBarrio())).count();
-
+        int totalGeneral = lista.size();
 
         StringBuilder xml = new StringBuilder();
         xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-        xml.append("<reportesResumen>\n");
-        xml.append("  <localidad nombre=\"Usaquén\"><abiertos>").append(usaquen).append("</abiertos></localidad>\n");
-        xml.append("  <localidad nombre=\"Chapinero\"><abiertos>").append(chapinero).append("</abiertos></localidad>\n");
-        xml.append("  <localidad nombre=\"Suba\"><abiertos>").append(suba).append("</abiertos></localidad>\n");
-        xml.append("  <localidad nombre=\"Kennedy\"><abiertos>").append(kennedy).append("</abiertos></localidad>\n");
-        xml.append("</reportesResumen>");
+        xml.append("<reportesResumen total=\"").append(totalGeneral).append("\">\n");
 
+        for (String loc : LOCALIDADES_BOGOTA) {
+            long conteo = lista.stream()
+                    .filter(r -> r.getBarrio() != null && loc.equalsIgnoreCase(r.getBarrio().trim()))
+                    .count();
+
+            int porcentaje = (totalGeneral > 0) ? (int) Math.round((conteo * 100.0) / totalGeneral) : 0;
+
+            xml.append("  <localidad nombre=\"").append(loc).append("\">\n");
+            xml.append("    <abiertos>").append(conteo).append("</abiertos>\n");
+            xml.append("    <porcentaje>").append(porcentaje).append("</porcentaje>\n");
+            xml.append("  </localidad>\n");
+        }
+
+        xml.append("</reportesResumen>");
 
         request.setAttribute("xmlData", xml.toString());
         request.getRequestDispatcher("/xml-demo.jsp").forward(request, response);

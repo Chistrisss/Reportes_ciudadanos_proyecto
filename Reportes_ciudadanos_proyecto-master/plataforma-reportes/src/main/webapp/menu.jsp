@@ -11,7 +11,8 @@
     <a href="ver-reportes">Ver Reportes</a> |
     <a href="consulta.jsp">Buscar Barrio</a> |
     <a href="estadisticas">Estadísticas</a> |
-    <a href="reportes-jsf.xhtml">Registro Rápido</a>
+    <a href="reportes-jsf.xhtml">Registro Rápido</a> |
+    <a href="ciclo-vida-reporte.xhtml">Alertas por Barrio</a> |
 </nav>
 
     <a href="consulta.jsp?idioma=es_CO" style="margin-left: 15px;">🇪🇸 Español</a> |
